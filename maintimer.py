@@ -62,7 +62,6 @@ class MasterTimer(QtWidgets.QMainWindow):
         self.ui.btnStop.clicked.connect(self.stop)
         
 
-
     # Methods are deployed from here
 
     # Time calculation and display funtion
@@ -94,8 +93,10 @@ class MasterTimer(QtWidgets.QMainWindow):
             # Check timer 
             print(timer, end="\r")
            
-        else: self.stop()
-
+        else: 
+            self.timer_window_state("alert") # Specifying to display as an ALERT!"
+            self.stop()
+            
 
     # Menu functions
 
@@ -224,11 +225,14 @@ class MasterTimer(QtWidgets.QMainWindow):
         print(self.showtime)
         print(f"Total seconds: {self.remaining_seconds}")
 
+        self.timer_window_state(None)
         self.ui.lblTimeDisplay.setText(self.showtime)
         self.ui.lblMessageDisplay.setVisible(False)
+    
         if self.ui2.isVisible():
             self.ui2.timer_text.setText(self.showtime)
             self.ui2.message_text.setVisible(False)
+            self.ui2.timer_text.setVisible(True)
 
     def resetDuration(self):
         self.ui.spinHrs.setProperty("value", 0)
@@ -276,12 +280,15 @@ class MasterTimer(QtWidgets.QMainWindow):
                 print(self.ui2.isVisible())
             
     def hideMessage(self):
+        self.timer_window_state(None)
         self.ui.lblMessageDisplay.setVisible(False) 
         if self.ui2.isVisible():
             self.ui2.message_text.setVisible(False)
             self.ui2.timer_text.setVisible(True)
 
     def start(self, seconds):
+
+        self.timer_window_state(None)
         if self.timer_is_active == False:
             self.setDuration()
             
@@ -327,6 +334,16 @@ class MasterTimer(QtWidgets.QMainWindow):
             event.ignore()
 
         print("Control window closed")
+
+
+    def timer_window_state(self, style=None):
+
+        if style == "alert":
+            self.ui2.setStyleSheet("background-color: Red; color: White")
+            print("Red")
+        else:
+            self.ui2.setStyleSheet("background-color: Black; color: White")
+            print("Black")
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ class UI_TimerWindow(QWidget):
         self.setWindowTitle("Timer Display")
 
         self.resize(800,600)
-        self.setStyleSheet("background-color: black; color: white;")
+        self.setStyleSheet("background-color: Black; color: White;")
 
         self.timer_display_text = current_time
         self.message_display_text = message
