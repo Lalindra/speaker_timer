@@ -6,8 +6,9 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWebEngineWidgets
+import os
 
 
 class Ui_Dialog(object):
@@ -39,8 +40,13 @@ class Ui_Dialog(object):
         sizePolicy.setHeightForWidth(self.webEngineView.sizePolicy().hasHeightForWidth())
         self.webEngineView.setSizePolicy(sizePolicy)
         
-        self.webEngineView.setUrl(QtCore.QUrl("file:///help.html"))
+        # Setting up local path for file
+        file_path = os.path.dirname(__file__)
+        file_name = os.path.join(file_path, "help.html")
+        
         self.webEngineView.setObjectName("webEngineView")
+        # self.webEngineView.setUrl(QtCore.QUrl("help.html"))
+        self.webEngineView.setUrl(QtCore.QUrl.fromLocalFile(file_name))
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -50,4 +56,3 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Presenter Timer - Interface Help"))
-from PyQt5 import QtWebEngineWidgets
