@@ -1,7 +1,9 @@
 from timergui5 import Ui_controlWindow
 from timerwindow2 import UI_TimerWindow
-from help import Ui_Dialog
+# from help import Ui_Dialog
 
+import subprocess
+import os
 import sys
 import json
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -101,6 +103,7 @@ class MasterTimer(QtWidgets.QMainWindow):
     # Menu functions
 
     def loadSettings(self):
+        # loads some parameters from a json file.
         
         file_name = "settings.json"
 
@@ -119,6 +122,7 @@ class MasterTimer(QtWidgets.QMainWindow):
         self.setDuration()
 
     def saveSettings(self):
+        # Saves a few parameters to a json file.
         save_data = {"message" : self.ui.txtMessageBox.text(), "hours" : self.ui.spinHrs.text(), "minutes" :self.ui.spinMins.text(), "seconds" : self.ui.spinSecs.text()}
         print(save_data)
 
@@ -151,8 +155,8 @@ class MasterTimer(QtWidgets.QMainWindow):
             sys.exit(app.exec_())
 
 
-    # Bring up the timer display window
     def timerDisplayWindow(self, state):
+        # Bring up the timer display window
 
         if state == 1 and self.ui2.isVisible() == False: # select between windowed and fullscreen
             print(self.ui2.isVisible())
@@ -191,12 +195,26 @@ class MasterTimer(QtWidgets.QMainWindow):
             self.timer_window_is_open = False
 
     def showHelp(self):
+        url = "help.html"
         
-        help_dialog = QtWidgets.QDialog()
-        self.d = Ui_Dialog()
-        self.d.setupUi(help_dialog)
-        help_dialog.setWindowIcon(self.icon)
-        help_dialog.exec_()
+        try:
+            os.startfile(url)
+        
+        except AttributeError:
+            try:
+                subprocess.call(["open", url])
+            except:
+                print("Could not open help")
+
+# This was used to bring up a WebEngine to display help. 
+# I discarded this as it adds weight to the overall package.
+#    def showHelp(self):
+#        
+#        help_dialog = QtWidgets.QDialog()
+#        self.d = Ui_Dialog()
+#        self.d.setupUi(help_dialog)
+#        help_dialog.setWindowIcon(self.icon)
+#        help_dialog.exec_()
         
         # Code for hiding the ? icon in the help window. This should be implemented in the UI_Dialog
         # Dialog.setWindowFlag(QtCore.Qt.WindowContextHelpButtonHint, False)
@@ -320,7 +338,6 @@ class MasterTimer(QtWidgets.QMainWindow):
         if len(self.display_message) != 0:
             self.showMessage()
 
-        # self.setDuration()
 
     def closeEvent(self, event):
         
@@ -337,6 +354,7 @@ class MasterTimer(QtWidgets.QMainWindow):
 
 
     def timer_window_state(self, style=None):
+        # Defines the color of background and text of the Timer Display window
 
         if style == "alert":
             self.ui2.setStyleSheet("background-color: Red; color: White")

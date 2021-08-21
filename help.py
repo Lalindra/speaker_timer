@@ -42,11 +42,13 @@ class Ui_Dialog(object):
         
         # Setting up local path for file
         file_path = os.path.dirname(__file__)
-        file_name = os.path.join(file_path, "help.html")
+        file_name = os.path.abspath(os.path.join(file_path, "help.html"))
         
         self.webEngineView.setObjectName("webEngineView")
-        # self.webEngineView.setUrl(QtCore.QUrl("help.html"))
+        # self.webEngineView.setUrl(QtCore.QUrl("file:///help.html"))
         self.webEngineView.setUrl(QtCore.QUrl.fromLocalFile(file_name))
+        print(QtCore.QUrl.fromLocalFile(file_name))
+        # print(QtCore.QUrl("file:///help.html"))
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
