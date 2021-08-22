@@ -2,7 +2,7 @@ from timergui5 import Ui_controlWindow
 from timerwindow2 import UI_TimerWindow
 # from help import Ui_Dialog
 
-import subprocess
+import subprocess, webbrowser
 import os
 import sys
 import json
@@ -202,7 +202,9 @@ class MasterTimer(QtWidgets.QMainWindow):
         
         except AttributeError:
             try:
-                subprocess.call(["open", url])
+                # subprocess.Popen("help.html")
+                # subprocess.call(["open", url])
+                webbrowser.open("help.html", new = 2)
             except:
                 print("Could not open help")
 

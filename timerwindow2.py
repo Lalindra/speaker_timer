@@ -2,13 +2,12 @@
 from pprint import pprint as pp
 from PyQt5.QtWidgets import QWidget, QGridLayout, QSizePolicy, QLabel
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QMouseEvent
 
 class UI_TimerWindow(QWidget):
     def __init__(self, current_time="00:00:00", message="Timer Ready"):
         super().__init__()
 
-        
         layoutGrid = QGridLayout()
 
         self.setLayout(layoutGrid)
@@ -106,10 +105,17 @@ class UI_TimerWindow(QWidget):
 
             else:
                 self.showMaximized()
-
+    
     def closeEvent(self, event):
         print("Timer window closed")
 
+    def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
+        event.accept()
+        if self.isFullScreen():
+            self.showNormal()
+
+        else:
+            self.showFullScreen()
     
 
 # def main():
